@@ -3,10 +3,7 @@ using TiendaMascotas.Core.Dominio;
 
 namespace TiendaMascotas.Tests.Caracterizacion;
 
-/// <summary>
-/// Traduce el formato viejo "nombre;categoria;precio;cantidad|..." al modelo nuevo,
-/// para poder alimentar las DOS versiones con exactamente los mismos datos.
-/// </summary>
+/// <summary>Convierte el formato del legacy ("nombre;categoria;precio;cantidad|...") al modelo nuevo.</summary>
 internal static class ConvertidorLegacy
 {
     public static Pedido APedido(string items, string? cupon) =>

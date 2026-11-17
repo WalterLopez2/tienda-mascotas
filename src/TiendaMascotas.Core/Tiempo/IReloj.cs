@@ -1,9 +1,6 @@
 namespace TiendaMascotas.Core.Tiempo;
 
-/// <summary>
-/// DateTime.Now escondido dentro de un método lo vuelve imposible de probar.
-/// Detrás de una interfaz, una prueba puede "congelar" el tiempo.
-/// </summary>
+/// <summary>Hora actual detrás de una interfaz para poder fijarla en las pruebas.</summary>
 public interface IReloj
 {
     DateTime Ahora { get; }

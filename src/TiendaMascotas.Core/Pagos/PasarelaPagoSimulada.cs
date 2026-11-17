@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace TiendaMascotas.Core.Pagos;
 
-/// <summary>Única responsabilidad: hablar con el procesador de pagos (aquí, simulado).</summary>
+/// <summary>Pasarela simulada para la demo: muestra el cobro en consola.</summary>
 public sealed class PasarelaPagoSimulada : IPasarelaPago
 {
     public bool Cobrar(Guid pedidoId, decimal monto)

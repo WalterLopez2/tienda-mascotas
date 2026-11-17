@@ -2,10 +2,7 @@ using TiendaMascotas.Core.Dominio;
 
 namespace TiendaMascotas.Tests.Utilidades;
 
-/// <summary>
-/// Test Data Builder: cada prueba declara SOLO lo que le importa
-/// y el resto toma valores por defecto razonables (DRY en las pruebas).
-/// </summary>
+/// <summary>Arma pedidos de prueba con valores por defecto.</summary>
 internal sealed class PedidoBuilder
 {
     private Cliente _cliente = new("Camila", "camila@correo.com", EstaActivo: true);

@@ -4,13 +4,6 @@ using System.IO;
 
 namespace TiendaMascotas.Legacy
 {
-    // ============================================================================
-    //  VERSIÓN "ANTES" — así estaba el código cuando lo recibí.
-    //  Funciona, pero NO es profesional. No se modifica: queda como referencia
-    //  y como red de seguridad (las pruebas de caracterización lo comparan con
-    //  la versión nueva).
-    // ============================================================================
-
     // Clase que procesa los pedidos
     public class ProcesadorPedidos
     {
@@ -94,10 +87,6 @@ namespace TiendaMascotas.Legacy
             return t;
         }
     }
-
-    // ----------------------------------------------------------------------------
-    //  Un "intento de diseño" que también venía en el proyecto.
-    // ----------------------------------------------------------------------------
 
     public abstract class MetodoPago
     {

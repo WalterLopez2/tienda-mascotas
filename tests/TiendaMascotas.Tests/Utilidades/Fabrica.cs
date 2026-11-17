@@ -11,7 +11,7 @@ using static TiendaMascotas.Tests.Utilidades.PedidoBuilder;
 
 namespace TiendaMascotas.Tests.Utilidades;
 
-/// <summary>Arma un ServicioPedidos donde cada prueba reemplaza SOLO el doble que le interesa.</summary>
+/// <summary>Arma un ServicioPedidos con dobles por defecto; cada prueba reemplaza solo lo que necesita.</summary>
 internal static class Fabrica
 {
     public static readonly DateTime FechaFija = new(2026, 11, 20, 10, 30, 0);
@@ -34,7 +34,7 @@ internal static class Fabrica
             controlDeRiesgo ?? new ControlDeRiesgo(montoMaximoPorPedido: 50_000m, montoMaximoAcumulado: 500_000m));
     }
 
-    /// <summary>El mismo pedido del ejemplo legacy: con tarjeta cobra L 1,061.63.</summary>
+    /// <summary>Pedido de ejemplo: con tarjeta cobra L 1,061.63.</summary>
     public static Pedido PedidoDeCamila(Guid? id = null)
     {
         var builder = UnPedido()

@@ -10,8 +10,7 @@ public class CalculadoraPrecios
 {
     private const decimal TasaIsv = 0.15m;
 
-    // Método de tabla: agregar una categoría = agregar una fila, no otro else-if.
-    // Medicina no tiene descuento: es la regla vigente del negocio (ver pruebas de caracterización).
+    // Medicina no tiene descuento: regla vigente del negocio.
     private static readonly IReadOnlyDictionary<Categoria, decimal> DescuentoPorCategoria =
         new Dictionary<Categoria, decimal>
         {

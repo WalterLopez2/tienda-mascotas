@@ -6,11 +6,6 @@ public class MetodosPagoTests
 {
     public static TheoryData<IMetodoPago> TodosLosMetodosDePago => [new PagoTarjeta(), new PagoEfectivo()];
 
-    /// <summary>
-    /// LSP como prueba: el MISMO contrato se verifica contra CADA implementación.
-    /// Si mañana alguien agrega un método de pago que cobra menos del total o lanza
-    /// excepción, esta prueba lo atrapa.
-    /// </summary>
     [Theory]
     [MemberData(nameof(TodosLosMetodosDePago))]
     public void CalcularMontoACobrar_CualquierMetodo_NuncaCobraMenosQueElTotal(IMetodoPago metodo)
@@ -60,7 +55,7 @@ public class MetodosPagoTests
         // Act
         var esReembolsable = efectivo is IReembolsable;
 
-        // Assert: en el legacy, Reembolsar() existía y lanzaba NotImplementedException.
+        // Assert
         Assert.False(esReembolsable);
     }
 }

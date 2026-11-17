@@ -2,11 +2,7 @@ using TiendaMascotas.Legacy;
 
 namespace TiendaMascotas.Tests.Caracterizacion;
 
-/// <summary>
-/// Pruebas de caracterización ("golden master").
-/// No dicen si el código legacy está BIEN: fotografían lo que HACE HOY.
-/// Son la red de seguridad para refactorizar sin romper (Módulo 1 · Refactoring seguro).
-/// </summary>
+/// <summary>Pruebas de caracterización: registran el comportamiento actual del legacy, incluidas sus rarezas.</summary>
 public class ProcesadorLegacyCaracterizacionTests : IDisposable
 {
     private readonly string _archivoTemporal = Path.GetTempFileName();

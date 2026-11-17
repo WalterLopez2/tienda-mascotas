@@ -2,7 +2,6 @@ using TiendaMascotas.Core.Dominio;
 
 namespace TiendaMascotas.Core.Notificaciones;
 
-/// <summary>Única responsabilidad: avisarle al cliente.</summary>
 public sealed class NotificadorConsola : INotificador
 {
     public void Notificar(Cliente cliente, string mensaje) =>

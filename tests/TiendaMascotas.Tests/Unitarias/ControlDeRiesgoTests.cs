@@ -28,7 +28,7 @@ public class ControlDeRiesgoTests
         var superaLimite = control.Autoriza(60m);
         var montoPequenoDespues = control.Autoriza(1m);
 
-        // Assert: una vez detenido, ni siquiera L 1 pasa (hasta que un humano revise)
+        // Assert: una vez detenido, ni siquiera L 1 pasa
         Assert.False(superaLimite);
         Assert.False(montoPequenoDespues);
         Assert.True(control.EstaDetenido);

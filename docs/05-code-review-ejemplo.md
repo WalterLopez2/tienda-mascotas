@@ -42,6 +42,3 @@ public sealed class PagoTransferencia : IMetodoPago
 2. El autor respondió con el commit `fix(pagos): atender comentarios del code review`.
 3. La pregunta del número de referencia se movió a un issue nuevo.
 4. Con el CI en verde y los bloqueantes resueltos: **aprobado**.
-
-> La rama `feature/pago-transferencia` se dejó **sin fusionar a propósito** para demostrar
-> en GitHub el flujo completo: subirla, abrir el PR con la plantilla, ver correr el CI y fusionar.

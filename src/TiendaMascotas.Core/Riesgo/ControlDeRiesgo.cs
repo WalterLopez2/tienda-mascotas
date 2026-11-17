@@ -1,13 +1,6 @@
 namespace TiendaMascotas.Core.Riesgo;
 
-/// <summary>
-/// Lección de Knight Capital (1 de agosto de 2012): un sistema de órdenes con código
-/// viejo reactivado por error envió órdenes sin parar durante 45 minutos y la empresa
-/// perdió unos 440 millones de dólares. No había un límite automático que lo frenara.
-///
-/// Este "kill switch" es ese límite: ningún pedido individual puede pasar de un monto
-/// y, si el total cobrado se dispara, el sistema se DETIENE solo y deja de cobrar.
-/// </summary>
+/// <summary>Límite automático de cobros: rechaza montos mayores al máximo por pedido y detiene todos los cobros si el acumulado supera el máximo permitido.</summary>
 public sealed class ControlDeRiesgo
 {
     private decimal _montoAcumulado;

@@ -2,11 +2,6 @@ using TiendaMascotas.Core.Pagos;
 
 namespace TiendaMascotas.Tests.Dobles;
 
-/// <summary>
-/// MOCK: se programa ANTES con lo que se espera que pase ("espero exactamente un cobro
-/// de L 1,061.63 para este pedido") y él mismo VERIFICA al final si se cumplió.
-/// Diferencia con el Spy: el Spy solo graba; el Mock trae las expectativas adentro.
-/// </summary>
 internal sealed class PasarelaPagoMock : IPasarelaPago
 {
     private readonly bool _aprobarCobros;

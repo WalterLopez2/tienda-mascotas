@@ -38,7 +38,7 @@ tests/TiendaMascotas.Tests/
   Integracion/             Flujo con archivo real
   Dobles/                  Dummy, Stub, Spy, Mock, Fake
 docs/                      Explicación de cada módulo
-.github/                   CI, plantilla de PR, issues, CODEOWNERS
+.github/                   CI, plantilla de PR e issues
 ```
 
 ## Mapa de los módulos
@@ -50,7 +50,7 @@ docs/                      Explicación de cada módulo
 | | Refactoring seguro | `tests/.../Caracterizacion/` + commits pequeños de `refactor/clean-code` |
 | **2 · Git** | Modelo mental, ramas, commits que hablan | `git log --graph --all`, [CONTRIBUTING.md](CONTRIBUTING.md) |
 | | Pull Requests y code review | [.github/pull_request_template.md](.github/pull_request_template.md), [docs/05-code-review-ejemplo.md](docs/05-code-review-ejemplo.md) |
-| | GitHub como plataforma de equipo | [.github/workflows/ci.yml](.github/workflows/ci.yml), CODEOWNERS, plantillas de issues |
+| | GitHub como plataforma de equipo | [.github/workflows/ci.yml](.github/workflows/ci.yml), plantillas de PR e issues |
 | **3 · SOLID** | Acoplamiento, cohesión, S·O·L·I·D, DRY/KISS/YAGNI | [docs/02-solid-y-principios.md](docs/02-solid-y-principios.md), un commit por principio en `refactor/solid` |
 | | Auditar el diseño de una IA | [docs/03-auditoria-diseno-ia.md](docs/03-auditoria-diseno-ia.md) |
 | **4 · Testing** | Pirámide, AAA, TDD, dobles, Knight Capital | [docs/04-pruebas-y-knight-capital.md](docs/04-pruebas-y-knight-capital.md), rama `feature/cupones-tdd` |
@@ -64,9 +64,9 @@ docs/                      Explicación de cada módulo
 | `refactor/solid` | Un commit por principio: S, O, L+I, D |
 | `feature/cupones-tdd` | Commits RED → GREEN → REFACTOR |
 | `feature/control-riesgo` | Dobles de prueba + lecciones de Knight Capital |
-| `chore/github-equipo` | CI, plantillas, CODEOWNERS |
+| `chore/github-equipo` | CI y plantillas de PR e issues |
 | `docs/documentacion` | Esta documentación |
-| `feature/pago-transferencia` | **Sin fusionar**: PR listo para demostrar en GitHub (OCP: método de pago nuevo sin tocar el servicio) |
+| `feature/pago-transferencia` | Pull Request abierto: método de pago nuevo sin tocar el servicio (OCP) |
 
 ## Resultado
 

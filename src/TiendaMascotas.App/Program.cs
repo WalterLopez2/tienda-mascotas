@@ -18,7 +18,7 @@ Console.WriteLine($"  ¿Y si proceso el MISMO pedido otra vez?  {legacy.Procesar
 
 Titulo("DESPUÉS: Clean Code + SOLID");
 
-// Composition root: el ÚNICO lugar que conoce las clases concretas (DIP).
+// Composition root: único lugar donde se eligen las implementaciones concretas.
 var reloj = new RelojSistema();
 var servicio = new ServicioPedidos(
     new CalculadoraPrecios([new DescuentoCompraGrande(), new DescuentoCupon(reloj)]),

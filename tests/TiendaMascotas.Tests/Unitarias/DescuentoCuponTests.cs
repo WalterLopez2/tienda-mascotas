@@ -4,10 +4,6 @@ using static TiendaMascotas.Tests.Utilidades.PedidoBuilder;
 
 namespace TiendaMascotas.Tests.Unitarias;
 
-/// <summary>
-/// Desarrollado con TDD (ver historial de commits de la rama feature/cupones-tdd):
-/// cada requisito nuevo entró primero como prueba en ROJO.
-/// </summary>
 public class DescuentoCuponTests
 {
     private static readonly DateTime AntesDeBlackFriday = new(2026, 11, 20);
@@ -41,7 +37,6 @@ public class DescuentoCuponTests
         Assert.Equal(100m, resultado);
     }
 
-    // Requisito nuevo: los clientes escriben el cupón como sea.
     [Theory]
     [InlineData("huellitas10")]
     [InlineData("  Huellitas10 ")]
@@ -57,7 +52,6 @@ public class DescuentoCuponTests
         Assert.Equal(90m, resultado);
     }
 
-    // Requisito nuevo: campaña de bienvenida.
     [Fact]
     public void Aplicar_CuponPrimeraCompra_Descuenta15PorCiento()
     {
@@ -84,7 +78,6 @@ public class DescuentoCuponTests
         Assert.Equal(100m, resultado);
     }
 
-    // Requisito nuevo: campaña de Black Friday.
     [Fact]
     public void Aplicar_CuponBlackFriday_Descuenta20PorCiento()
     {
@@ -98,7 +91,6 @@ public class DescuentoCuponTests
         Assert.Equal(80m, resultado);
     }
 
-    // Requisito nuevo: los cupones de campaña vencen.
     [Fact]
     public void Aplicar_CuponBlackFridayYaVencido_NoDescuenta()
     {
