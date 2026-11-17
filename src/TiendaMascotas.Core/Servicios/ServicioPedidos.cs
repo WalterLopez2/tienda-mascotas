@@ -1,53 +1,64 @@
 using System.Globalization;
 using TiendaMascotas.Core.Dominio;
+using TiendaMascotas.Core.Notificaciones;
+using TiendaMascotas.Core.Pagos;
+using TiendaMascotas.Core.Persistencia;
 using TiendaMascotas.Core.Precios;
+using TiendaMascotas.Core.Tiempo;
 
 namespace TiendaMascotas.Core.Servicios;
 
 /// <summary>
-/// Versión Clean Code del viejo Procesar(object[] d):
-/// cláusulas de guarda en vez de la "flecha" de ifs, y un paso = una función con nombre.
-/// Todavía crea sus propias dependencias (archivo, consola): eso lo arregla SOLID.
+/// SRP: solo ORQUESTA el flujo de un pedido; no calcula, no guarda, no notifica por sí mismo.
+/// DIP: depende de abstracciones que recibe por constructor, no de clases concretas que
+/// crea con "new". Por eso en producción usa archivo + consola y en las pruebas, dobles.
 /// </summary>
 public class ServicioPedidos
 {
-    private const decimal RecargoTarjeta = 0.03m;
+    private readonly CalculadoraPrecios _calculadora;
+    private readonly IPasarelaPago _pasarela;
+    private readonly IRepositorioPedidos _repositorio;
+    private readonly INotificador _notificador;
+    private readonly IReloj _reloj;
 
-    private readonly CalculadoraPrecios _calculadora = new();
-    private readonly string _rutaArchivo;
+    public ServicioPedidos(
+        CalculadoraPrecios calculadora,
+        IPasarelaPago pasarela,
+        IRepositorioPedidos repositorio,
+        INotificador notificador,
+        IReloj reloj)
+    {
+        _calculadora = calculadora;
+        _pasarela = pasarela;
+        _repositorio = repositorio;
+        _notificador = notificador;
+        _reloj = reloj;
+    }
 
-    public List<string> Bitacora { get; } = new();
-
-    public ServicioPedidos(string rutaArchivo = "pedidos.txt") => _rutaArchivo = rutaArchivo;
-
-    public ResultadoPedido Procesar(Pedido pedido, TipoPago tipoPago)
+    public ResultadoPedido Procesar(Pedido pedido, IMetodoPago metodoPago)
     {
         if (!pedido.Cliente.EstaActivo) return ResultadoPedido.Fallo("Cliente inactivo");
         if (!pedido.TieneLineas) return ResultadoPedido.Fallo("El pedido no tiene productos");
 
-        var total = _calculadora.CalcularTotal(pedido);
-        var montoACobrar = Math.Round(AplicarRecargo(total, tipoPago), 2);
+        var montoACobrar = CalcularMontoACobrar(pedido, metodoPago);
 
-        Cobrar(montoACobrar, tipoPago);
-        Guardar(pedido, montoACobrar);
+        if (!_pasarela.Cobrar(pedido.Id, montoACobrar)) return ResultadoPedido.Fallo("El pago fue rechazado");
+
+        RegistrarPedido(pedido, metodoPago, montoACobrar);
         NotificarCliente(pedido.Cliente, montoACobrar);
 
         return ResultadoPedido.Exito(montoACobrar);
     }
 
-    private static decimal AplicarRecargo(decimal total, TipoPago tipoPago) => tipoPago switch
+    private decimal CalcularMontoACobrar(Pedido pedido, IMetodoPago metodoPago)
     {
-        TipoPago.Tarjeta => total * (1 + RecargoTarjeta),
-        TipoPago.Efectivo => total,
-        _ => throw new ArgumentOutOfRangeException(nameof(tipoPago))
-    };
+        var total = _calculadora.CalcularTotal(pedido);
+        return Math.Round(metodoPago.CalcularMontoACobrar(total), 2);
+    }
 
-    private void Cobrar(decimal monto, TipoPago tipoPago) =>
-        Bitacora.Add($"Cobrando {monto.ToString("N2", CultureInfo.InvariantCulture)} con {tipoPago}");
+    private void RegistrarPedido(Pedido pedido, IMetodoPago metodoPago, decimal montoCobrado) =>
+        _repositorio.Guardar(new PedidoProcesado(pedido.Id, pedido.Cliente.Nombre, montoCobrado, metodoPago.Nombre, _reloj.Ahora));
 
-    private void Guardar(Pedido pedido, decimal monto) =>
-        File.AppendAllText(_rutaArchivo, $"{pedido.Id},{pedido.Cliente.Nombre},{monto.ToString(CultureInfo.InvariantCulture)},{DateTime.Now:O}\n");
-
-    private void NotificarCliente(Cliente cliente, decimal monto) =>
-        Bitacora.Add($"Correo a {cliente.Correo}: su pedido fue procesado. Total: L {monto.ToString("N2", CultureInfo.InvariantCulture)}");
+    private void NotificarCliente(Cliente cliente, decimal montoCobrado) =>
+        _notificador.Notificar(cliente, $"Su pedido fue procesado. Total: L {montoCobrado.ToString("N2", CultureInfo.InvariantCulture)}");
 }

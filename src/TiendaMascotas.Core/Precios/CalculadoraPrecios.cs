@@ -3,17 +3,14 @@ using TiendaMascotas.Core.Dominio;
 namespace TiendaMascotas.Core.Precios;
 
 /// <summary>
-/// Extraída del método Procesar() del legacy. Cada número mágico ahora tiene nombre
-/// y la cadena de if/else de categorías pasó a ser una tabla.
+/// Calcula el total de un pedido: subtotal con descuento por categoría,
+/// luego las políticas de descuento EN ORDEN, y al final el ISV.
 /// </summary>
 public class CalculadoraPrecios
 {
-    private const decimal MontoMinimoCompraGrande = 1000m;
-    private const decimal DescuentoCompraGrande = 0.10m;
-    private const string CuponHuellitas = "HUELLITAS10";
-    private const decimal DescuentoCuponHuellitas = 0.10m;
     private const decimal TasaIsv = 0.15m;
 
+    // Método de tabla: agregar una categoría = agregar una fila, no otro else-if.
     // Medicina no tiene descuento: es la regla vigente del negocio (ver pruebas de caracterización).
     private static readonly IReadOnlyDictionary<Categoria, decimal> DescuentoPorCategoria =
         new Dictionary<Categoria, decimal>
@@ -23,12 +20,15 @@ public class CalculadoraPrecios
             [Categoria.Accesorio] = 0.15m
         };
 
+    private readonly IReadOnlyList<IPoliticaDescuento> _politicas;
+
+    public CalculadoraPrecios(IEnumerable<IPoliticaDescuento> politicas) => _politicas = politicas.ToList();
+
     public decimal CalcularTotal(Pedido pedido)
     {
         var subtotal = CalcularSubtotal(pedido);
-        var conDescuentoCompraGrande = AplicarDescuentoCompraGrande(subtotal);
-        var conCupon = AplicarCupon(conDescuentoCompraGrande, pedido.Cupon);
-        return AgregarIsv(conCupon);
+        var conDescuentos = _politicas.Aggregate(subtotal, (monto, politica) => politica.Aplicar(monto, pedido));
+        return conDescuentos * (1 + TasaIsv);
     }
 
     public decimal CalcularSubtotal(Pedido pedido) =>
@@ -39,12 +39,4 @@ public class CalculadoraPrecios
         var descuento = DescuentoPorCategoria.GetValueOrDefault(linea.Producto.Categoria, 0m);
         return linea.Importe * (1 - descuento);
     }
-
-    private static decimal AplicarDescuentoCompraGrande(decimal monto) =>
-        monto > MontoMinimoCompraGrande ? monto * (1 - DescuentoCompraGrande) : monto;
-
-    private static decimal AplicarCupon(decimal monto, string? cupon) =>
-        cupon == CuponHuellitas ? monto * (1 - DescuentoCuponHuellitas) : monto;
-
-    private static decimal AgregarIsv(decimal monto) => monto * (1 + TasaIsv);
 }
