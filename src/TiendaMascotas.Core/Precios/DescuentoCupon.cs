@@ -8,5 +8,5 @@ public sealed class DescuentoCupon : IPoliticaDescuento
     private const decimal Porcentaje = 0.10m;
 
     public decimal Aplicar(decimal monto, Pedido pedido) =>
-        pedido.Cupon == CuponHuellitas ? monto * (1 - Porcentaje) : monto;
+        pedido.Cupon?.Trim().ToUpperInvariant() == CuponHuellitas ? monto * (1 - Porcentaje) : monto;
 }
