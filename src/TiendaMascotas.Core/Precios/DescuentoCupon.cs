@@ -4,9 +4,11 @@ namespace TiendaMascotas.Core.Precios;
 
 public sealed class DescuentoCupon : IPoliticaDescuento
 {
-    private const string CuponHuellitas = "HUELLITAS10";
-    private const decimal Porcentaje = 0.10m;
-
-    public decimal Aplicar(decimal monto, Pedido pedido) =>
-        pedido.Cupon?.Trim().ToUpperInvariant() == CuponHuellitas ? monto * (1 - Porcentaje) : monto;
+    public decimal Aplicar(decimal monto, Pedido pedido)
+    {
+        var cupon = pedido.Cupon?.Trim().ToUpperInvariant();
+        if (cupon == "HUELLITAS10") return monto * (1 - 0.10m);
+        if (cupon == "PRIMERACOMPRA") return monto * (1 - 0.15m);
+        return monto;
+    }
 }
