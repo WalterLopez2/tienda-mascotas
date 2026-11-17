@@ -21,6 +21,7 @@ public sealed class DescuentoCupon : IPoliticaDescuento
     public decimal Aplicar(decimal monto, Pedido pedido)
     {
         var codigo = Normalizar(pedido.Cupon);
+        if (codigo == "BLACKFRIDAY" && _reloj.Ahora.Date > new DateTime(2026, 11, 30)) return monto;
         return PorcentajePorCupon.TryGetValue(codigo, out var porcentaje)
             ? monto * (1 - porcentaje)
             : monto;
