@@ -1,4 +1,5 @@
 using TiendaMascotas.Core.Dominio;
+using TiendaMascotas.Core.Tiempo;
 
 namespace TiendaMascotas.Core.Precios;
 
@@ -12,6 +13,10 @@ public sealed class DescuentoCupon : IPoliticaDescuento
             ["PRIMERACOMPRA"] = 0.15m,
             ["BLACKFRIDAY"] = 0.20m
         };
+
+    private readonly IReloj _reloj;
+
+    public DescuentoCupon(IReloj reloj) => _reloj = reloj;
 
     public decimal Aplicar(decimal monto, Pedido pedido)
     {

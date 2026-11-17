@@ -1,4 +1,5 @@
 using TiendaMascotas.Core.Precios;
+using TiendaMascotas.Tests.Dobles;
 using static TiendaMascotas.Tests.Utilidades.PedidoBuilder;
 
 namespace TiendaMascotas.Tests.Unitarias;
@@ -9,7 +10,10 @@ namespace TiendaMascotas.Tests.Unitarias;
 /// </summary>
 public class DescuentoCuponTests
 {
-    private readonly DescuentoCupon _politica = new();
+    private static readonly DateTime AntesDeBlackFriday = new(2026, 11, 20);
+    private static readonly DateTime DespuesDeBlackFriday = new(2026, 12, 1);
+
+    private readonly DescuentoCupon _politica = new(new RelojFijo(AntesDeBlackFriday));
 
     [Fact]
     public void Aplicar_CuponHuellitas10_Descuenta10PorCiento()
@@ -92,5 +96,20 @@ public class DescuentoCuponTests
 
         // Assert
         Assert.Equal(80m, resultado);
+    }
+
+    // Requisito nuevo: los cupones de campaña vencen.
+    [Fact]
+    public void Aplicar_CuponBlackFridayYaVencido_NoDescuenta()
+    {
+        // Arrange
+        var politica = new DescuentoCupon(new RelojFijo(DespuesDeBlackFriday));
+        var pedido = UnPedido().ConCupon("BLACKFRIDAY").Construir();
+
+        // Act
+        var resultado = politica.Aplicar(100m, pedido);
+
+        // Assert
+        Assert.Equal(100m, resultado);
     }
 }

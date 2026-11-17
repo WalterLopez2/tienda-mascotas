@@ -1,5 +1,6 @@
 using TiendaMascotas.Core.Pagos;
 using TiendaMascotas.Core.Precios;
+using TiendaMascotas.Tests.Dobles;
 using ProcesadorLegacy = TiendaMascotas.Legacy.ProcesadorPedidos;
 
 namespace TiendaMascotas.Tests.Caracterizacion;
@@ -56,7 +57,7 @@ public class EquivalenciaLegacyTests : IDisposable
 
     private static decimal MontoNuevo(string items, string? cupon, string pago)
     {
-        var calculadora = new CalculadoraPrecios([new DescuentoCompraGrande(), new DescuentoCupon()]);
+        var calculadora = new CalculadoraPrecios([new DescuentoCompraGrande(), new DescuentoCupon(new RelojFijo(new DateTime(2026, 11, 20)))]);
         IMetodoPago metodoPago = pago == "tarjeta" ? new PagoTarjeta() : new PagoEfectivo();
         var total = calculadora.CalcularTotal(ConvertidorLegacy.APedido(items, cupon));
         return Math.Round(metodoPago.CalcularMontoACobrar(total), 2);
