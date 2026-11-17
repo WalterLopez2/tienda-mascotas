@@ -37,7 +37,6 @@ tests/TiendaMascotas.Tests/
   KnightCapital/           Idempotencia, kill switch y código muerto
   Integracion/             Flujo con archivo real
   Dobles/                  Dummy, Stub, Spy, Mock, Fake
-docs/                      Explicación de cada módulo
 .github/                   CI, plantilla de PR e issues
 ```
 
@@ -46,14 +45,13 @@ docs/                      Explicación de cada módulo
 | Módulo | Tema | Dónde verlo |
 |---|---|---|
 | **1 · Clean Code** | Nombres, funciones y comentarios | `Legacy/ProcesadorPedidos.cs` vs `Core/Servicios/ServicioPedidos.cs` |
-| | Code smells y deuda técnica | [docs/01-antes-y-despues.md](docs/01-antes-y-despues.md) (16 smells inventariados) |
+| | Code smells y deuda técnica | `Legacy/ProcesadorPedidos.cs`: object[], números mágicos, ifs anidados, código duplicado, comentario desactualizado, bandera muerta |
 | | Refactoring seguro | `tests/.../Caracterizacion/` + commits pequeños de `refactor/clean-code` |
 | **2 · Git** | Modelo mental, ramas, commits que hablan | `git log --graph --all`, [CONTRIBUTING.md](CONTRIBUTING.md) |
-| | Pull Requests y code review | [.github/pull_request_template.md](.github/pull_request_template.md), [docs/05-code-review-ejemplo.md](docs/05-code-review-ejemplo.md) |
+| | Pull Requests y code review | [.github/pull_request_template.md](.github/pull_request_template.md), PR de `feature/pago-transferencia` |
 | | GitHub como plataforma de equipo | [.github/workflows/ci.yml](.github/workflows/ci.yml), plantillas de PR e issues |
-| **3 · SOLID** | Acoplamiento, cohesión, S·O·L·I·D, DRY/KISS/YAGNI | [docs/02-solid-y-principios.md](docs/02-solid-y-principios.md), un commit por principio en `refactor/solid` |
-| | Auditar el diseño de una IA | [docs/03-auditoria-diseno-ia.md](docs/03-auditoria-diseno-ia.md) |
-| **4 · Testing** | Pirámide, AAA, TDD, dobles, Knight Capital | [docs/04-pruebas-y-knight-capital.md](docs/04-pruebas-y-knight-capital.md), rama `feature/cupones-tdd` |
+| **3 · SOLID** | Acoplamiento, cohesión, S·O·L·I·D, DRY/KISS/YAGNI | `Core/Precios/IPoliticaDescuento.cs`, `Core/Pagos/`, `Core/Servicios/ServicioPedidos.cs`, un commit por principio en `refactor/solid` |
+| **4 · Testing** | Pirámide, AAA, TDD, dobles, Knight Capital | `tests/TiendaMascotas.Tests/`, rama `feature/cupones-tdd` |
 
 ## Historia del repositorio (cada rama = un Pull Request)
 
@@ -65,7 +63,7 @@ docs/                      Explicación de cada módulo
 | `feature/cupones-tdd` | Commits RED → GREEN → REFACTOR |
 | `feature/control-riesgo` | Dobles de prueba + lecciones de Knight Capital |
 | `chore/github-equipo` | CI y plantillas de PR e issues |
-| `docs/documentacion` | Esta documentación |
+| `docs/documentacion` | README del proyecto |
 | `feature/pago-transferencia` | Pull Request abierto: método de pago nuevo sin tocar el servicio (OCP) |
 
 ## Resultado
