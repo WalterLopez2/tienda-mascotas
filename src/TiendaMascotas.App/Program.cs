@@ -22,7 +22,7 @@ Console.WriteLine("=== DESPUÉS: Clean Code + SOLID ===");
 // Composition root: el ÚNICO lugar que conoce las clases concretas (DIP).
 var reloj = new RelojSistema();
 var servicio = new ServicioPedidos(
-    new CalculadoraPrecios([new DescuentoCompraGrande(), new DescuentoCupon()]),
+    new CalculadoraPrecios([new DescuentoCompraGrande(), new DescuentoCupon(reloj)]),
     new PasarelaPagoSimulada(),
     new RepositorioPedidosArchivo("pedidos.jsonl"),
     new NotificadorConsola(),

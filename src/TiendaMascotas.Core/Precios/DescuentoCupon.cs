@@ -1,12 +1,34 @@
 using TiendaMascotas.Core.Dominio;
+using TiendaMascotas.Core.Tiempo;
 
 namespace TiendaMascotas.Core.Precios;
 
+/// <summary>
+/// Desarrollada con TDD: normalización, varios cupones y vencimiento
+/// entraron cada uno como una prueba en rojo.
+/// </summary>
 public sealed class DescuentoCupon : IPoliticaDescuento
 {
-    private const string CuponHuellitas = "HUELLITAS10";
-    private const decimal Porcentaje = 0.10m;
+    // Método de tabla: un cupón nuevo es una fila nueva, no otro if.
+    private static readonly IReadOnlyDictionary<string, Cupon> CuponesVigentes =
+        new Cupon[]
+        {
+            new("HUELLITAS10", 0.10m),
+            new("PRIMERACOMPRA", 0.15m),
+            new("BLACKFRIDAY", 0.20m, VenceEl: new DateOnly(2026, 11, 30))
+        }.ToDictionary(cupon => cupon.Codigo);
 
-    public decimal Aplicar(decimal monto, Pedido pedido) =>
-        pedido.Cupon == CuponHuellitas ? monto * (1 - Porcentaje) : monto;
+    private readonly IReloj _reloj;
+
+    public DescuentoCupon(IReloj reloj) => _reloj = reloj;
+
+    public decimal Aplicar(decimal monto, Pedido pedido)
+    {
+        if (!CuponesVigentes.TryGetValue(Normalizar(pedido.Cupon), out var cupon)) return monto;
+        if (!cupon.EstaVigenteEl(_reloj.Ahora)) return monto;
+
+        return monto * (1 - cupon.Porcentaje);
+    }
+
+    private static string Normalizar(string? cupon) => cupon?.Trim().ToUpperInvariant() ?? string.Empty;
 }
