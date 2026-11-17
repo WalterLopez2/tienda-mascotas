@@ -16,4 +16,17 @@ public class PagoTransferenciaTests
         // Assert
         Assert.Equal(115m, monto);
     }
+
+    [Fact]
+    public void CalcularReembolso_Transferencia_DevuelveTodoMenosLaComision()
+    {
+        // Arrange
+        var transferencia = new PagoTransferencia();
+
+        // Act
+        var reembolso = transferencia.CalcularReembolso(115m);
+
+        // Assert
+        Assert.Equal(100m, reembolso);
+    }
 }

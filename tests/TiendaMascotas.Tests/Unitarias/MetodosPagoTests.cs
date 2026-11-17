@@ -4,7 +4,7 @@ namespace TiendaMascotas.Tests.Unitarias;
 
 public class MetodosPagoTests
 {
-    public static TheoryData<IMetodoPago> TodosLosMetodosDePago => [new PagoTarjeta(), new PagoEfectivo()];
+    public static TheoryData<IMetodoPago> TodosLosMetodosDePago => [new PagoTarjeta(), new PagoEfectivo(), new PagoTransferencia()];
 
     /// <summary>
     /// LSP como prueba: el MISMO contrato se verifica contra CADA implementación.
