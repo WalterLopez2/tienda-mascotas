@@ -13,6 +13,9 @@ public sealed class RepositorioPedidosArchivo : IRepositorioPedidos
     public void Guardar(PedidoProcesado pedido) =>
         File.AppendAllText(_ruta, JsonSerializer.Serialize(pedido) + Environment.NewLine);
 
+    public bool YaFueProcesado(Guid pedidoId) =>
+        LeerTodos().Any(pedido => pedido.PedidoId == pedidoId);
+
     public IReadOnlyList<PedidoProcesado> LeerTodos()
     {
         if (!File.Exists(_ruta)) return [];
