@@ -6,11 +6,6 @@ using TiendaMascotas.Tests.Utilidades;
 
 namespace TiendaMascotas.Tests.Integracion;
 
-/// <summary>
-/// Pruebas de INTEGRACIÓN (segundo piso de la pirámide): piezas reales trabajando juntas,
-/// incluido el archivo en disco. Son menos y más lentas que las unitarias.
-/// Solo se dobla lo que sale del sistema (pasarela de pago y notificación).
-/// </summary>
 public class FlujoCompletoTests : IDisposable
 {
     private readonly string _archivo = Path.Combine(Path.GetTempPath(), $"pedidos-{Guid.NewGuid()}.jsonl");

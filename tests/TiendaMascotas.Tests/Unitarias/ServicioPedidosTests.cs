@@ -6,15 +6,11 @@ using static TiendaMascotas.Tests.Utilidades.PedidoBuilder;
 
 namespace TiendaMascotas.Tests.Unitarias;
 
-/// <summary>
-/// Pruebas del orquestador usando los 5 dobles de prueba.
-/// Gracias a DIP, ninguna toca disco, red ni consola: corren en milisegundos.
-/// </summary>
 public class ServicioPedidosTests
 {
     private const decimal MontoPedidoDeCamilaConTarjeta = 1061.63m;
 
-    [Fact] // DUMMY + SPY
+    [Fact]
     public void Procesar_ClienteInactivo_NoCobraNiNotifica()
     {
         // Arrange
@@ -31,7 +27,7 @@ public class ServicioPedidosTests
         Assert.Empty(notificador.Enviados);
     }
 
-    [Fact] // MOCK
+    [Fact]
     public void Procesar_PedidoValido_CobraElMontoCorrectoUnaSolaVez()
     {
         // Arrange
@@ -46,7 +42,7 @@ public class ServicioPedidosTests
         pasarela.Verificar();
     }
 
-    [Fact] // SPY
+    [Fact]
     public void Procesar_PedidoValido_NotificaAlClienteConElTotal()
     {
         // Arrange
@@ -62,7 +58,7 @@ public class ServicioPedidosTests
         Assert.Contains("L 1,061.63", mensaje);
     }
 
-    [Fact] // FAKE + STUB
+    [Fact]
     public void Procesar_PedidoValido_GuardaElPedidoConLaFechaDelReloj()
     {
         // Arrange
@@ -81,7 +77,7 @@ public class ServicioPedidosTests
         Assert.Equal(Fabrica.FechaFija, guardado.Fecha);
     }
 
-    [Fact] // MOCK configurado para rechazar + FAKE + SPY
+    [Fact]
     public void Procesar_PagoRechazado_NoGuardaNiNotifica()
     {
         // Arrange

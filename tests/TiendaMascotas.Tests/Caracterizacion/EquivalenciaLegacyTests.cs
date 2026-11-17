@@ -5,10 +5,7 @@ using ProcesadorLegacy = TiendaMascotas.Legacy.ProcesadorPedidos;
 
 namespace TiendaMascotas.Tests.Caracterizacion;
 
-/// <summary>
-/// El refactor es seguro si, para las mismas entradas, la versión nueva
-/// cobra exactamente lo mismo que la vieja.
-/// </summary>
+/// <summary>Para las mismas entradas, la versión nueva debe cobrar lo mismo que el legacy.</summary>
 public class EquivalenciaLegacyTests : IDisposable
 {
     private readonly string _archivoTemporal = Path.GetTempFileName();
@@ -31,11 +28,7 @@ public class EquivalenciaLegacyTests : IDisposable
         Assert.Equal(montoLegacy, montoNuevo);
     }
 
-    /// <summary>
-    /// CAMBIO INTENCIONAL (feature/cupones-tdd): el legacy ignoraba "huellitas10" en minúsculas.
-    /// La red de seguridad lo detectó; como es el requisito nuevo, se documenta aquí
-    /// en lugar de borrar el caso en silencio.
-    /// </summary>
+    /// <summary>Cambio intencional: el cupón ahora ignora mayúsculas y espacios; el legacy no.</summary>
     [Fact]
     public void MontoACobrar_CuponEnMinusculas_AhoraSiDescuentaAunqueElLegacyNo()
     {

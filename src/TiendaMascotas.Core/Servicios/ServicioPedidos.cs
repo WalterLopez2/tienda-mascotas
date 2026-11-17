@@ -9,11 +9,7 @@ using TiendaMascotas.Core.Tiempo;
 
 namespace TiendaMascotas.Core.Servicios;
 
-/// <summary>
-/// SRP: solo ORQUESTA el flujo de un pedido; no calcula, no guarda, no notifica por sí mismo.
-/// DIP: depende de abstracciones que recibe por constructor, no de clases concretas que
-/// crea con "new". Por eso en producción usa archivo + consola y en las pruebas, dobles.
-/// </summary>
+/// <summary>Procesa un pedido: valida, cobra, registra y notifica al cliente.</summary>
 public class ServicioPedidos
 {
     private readonly CalculadoraPrecios _calculadora;

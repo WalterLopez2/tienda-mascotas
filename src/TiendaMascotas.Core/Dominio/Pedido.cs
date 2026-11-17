@@ -1,9 +1,5 @@
 namespace TiendaMascotas.Core.Dominio;
 
-/// <summary>
-/// Antes el pedido era un object[] donde d[3] significaba "tipo de pago".
-/// Ahora cada dato tiene nombre y tipo.
-/// </summary>
 public sealed class Pedido
 {
     public Guid Id { get; }

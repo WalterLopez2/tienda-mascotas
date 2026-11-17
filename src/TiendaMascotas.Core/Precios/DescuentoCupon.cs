@@ -3,13 +3,8 @@ using TiendaMascotas.Core.Tiempo;
 
 namespace TiendaMascotas.Core.Precios;
 
-/// <summary>
-/// Desarrollada con TDD: normalización, varios cupones y vencimiento
-/// entraron cada uno como una prueba en rojo.
-/// </summary>
 public sealed class DescuentoCupon : IPoliticaDescuento
 {
-    // Método de tabla: un cupón nuevo es una fila nueva, no otro if.
     private static readonly IReadOnlyDictionary<string, Cupon> CuponesVigentes =
         new Cupon[]
         {

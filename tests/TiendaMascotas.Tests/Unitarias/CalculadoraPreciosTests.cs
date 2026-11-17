@@ -4,10 +4,6 @@ using static TiendaMascotas.Tests.Utilidades.PedidoBuilder;
 
 namespace TiendaMascotas.Tests.Unitarias;
 
-/// <summary>
-/// Cada prueba sigue AAA: Arrange (preparar), Act (una sola acción), Assert (verificar).
-/// Nombre: Método_Escenario_ResultadoEsperado.
-/// </summary>
 public class CalculadoraPreciosTests
 {
     private static CalculadoraPrecios SinPoliticas() => new([]);
@@ -72,8 +68,6 @@ public class CalculadoraPreciosTests
         Assert.Equal(92m, total);
     }
 
-    // Una política inventada SOLO para la prueba: demuestra que la calculadora
-    // acepta cualquier IPoliticaDescuento sin modificarse (OCP).
     private sealed class RestarDiez : IPoliticaDescuento
     {
         public decimal Aplicar(decimal monto, Pedido pedido) => monto - 10m;
