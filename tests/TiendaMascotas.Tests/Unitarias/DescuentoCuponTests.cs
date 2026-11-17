@@ -79,4 +79,18 @@ public class DescuentoCuponTests
         // Assert
         Assert.Equal(100m, resultado);
     }
+
+    // Requisito nuevo: campaña de Black Friday.
+    [Fact]
+    public void Aplicar_CuponBlackFriday_Descuenta20PorCiento()
+    {
+        // Arrange
+        var pedido = UnPedido().ConCupon("BLACKFRIDAY").Construir();
+
+        // Act
+        var resultado = _politica.Aplicar(100m, pedido);
+
+        // Assert
+        Assert.Equal(80m, resultado);
+    }
 }
