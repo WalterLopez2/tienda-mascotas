@@ -1,24 +1,27 @@
 using System.Globalization;
 using TiendaMascotas.Core.Dominio;
+using TiendaMascotas.Core.Notificaciones;
+using TiendaMascotas.Core.Pagos;
+using TiendaMascotas.Core.Persistencia;
 using TiendaMascotas.Core.Precios;
 
 namespace TiendaMascotas.Core.Servicios;
 
 /// <summary>
-/// Versión Clean Code del viejo Procesar(object[] d):
-/// cláusulas de guarda en vez de la "flecha" de ifs, y un paso = una función con nombre.
-/// Todavía crea sus propias dependencias (archivo, consola): eso lo arregla SOLID.
+/// SRP: ya no calcula, ni escribe archivos, ni manda correos. Solo ORQUESTA el flujo.
+/// Cada responsabilidad vive en su propia clase y tiene una sola razón para cambiar.
 /// </summary>
 public class ServicioPedidos
 {
     private const decimal RecargoTarjeta = 0.03m;
 
     private readonly CalculadoraPrecios _calculadora = new();
-    private readonly string _rutaArchivo;
+    private readonly PasarelaPagoSimulada _pasarela = new();
+    private readonly NotificadorConsola _notificador = new();
+    private readonly RepositorioPedidosArchivo _repositorio;
 
-    public List<string> Bitacora { get; } = new();
-
-    public ServicioPedidos(string rutaArchivo = "pedidos.txt") => _rutaArchivo = rutaArchivo;
+    public ServicioPedidos(string rutaArchivo = "pedidos.jsonl") =>
+        _repositorio = new RepositorioPedidosArchivo(rutaArchivo);
 
     public ResultadoPedido Procesar(Pedido pedido, TipoPago tipoPago)
     {
@@ -28,9 +31,10 @@ public class ServicioPedidos
         var total = _calculadora.CalcularTotal(pedido);
         var montoACobrar = Math.Round(AplicarRecargo(total, tipoPago), 2);
 
-        Cobrar(montoACobrar, tipoPago);
-        Guardar(pedido, montoACobrar);
-        NotificarCliente(pedido.Cliente, montoACobrar);
+        if (!_pasarela.Cobrar(pedido.Id, montoACobrar)) return ResultadoPedido.Fallo("El pago fue rechazado");
+
+        _repositorio.Guardar(new PedidoProcesado(pedido.Id, pedido.Cliente.Nombre, montoACobrar, tipoPago.ToString(), DateTime.Now));
+        _notificador.Notificar(pedido.Cliente, $"Su pedido fue procesado. Total: L {montoACobrar.ToString("N2", CultureInfo.InvariantCulture)}");
 
         return ResultadoPedido.Exito(montoACobrar);
     }
@@ -41,13 +45,4 @@ public class ServicioPedidos
         TipoPago.Efectivo => total,
         _ => throw new ArgumentOutOfRangeException(nameof(tipoPago))
     };
-
-    private void Cobrar(decimal monto, TipoPago tipoPago) =>
-        Bitacora.Add($"Cobrando {monto.ToString("N2", CultureInfo.InvariantCulture)} con {tipoPago}");
-
-    private void Guardar(Pedido pedido, decimal monto) =>
-        File.AppendAllText(_rutaArchivo, $"{pedido.Id},{pedido.Cliente.Nombre},{monto.ToString(CultureInfo.InvariantCulture)},{DateTime.Now:O}\n");
-
-    private void NotificarCliente(Cliente cliente, decimal monto) =>
-        Bitacora.Add($"Correo a {cliente.Correo}: su pedido fue procesado. Total: L {monto.ToString("N2", CultureInfo.InvariantCulture)}");
 }
