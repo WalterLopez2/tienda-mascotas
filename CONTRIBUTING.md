@@ -41,7 +41,7 @@ Quien revisa clasifica cada comentario para que el autor sepa qué es obligatori
 | **[nit]** | Detalle de estilo menor. |
 | **[pregunta]** | No entiendo algo; tal vez falta un nombre mejor o una prueba. |
 
-Se revisa el código, no a la persona. Ver `docs/code-review-ejemplo.md`.
+Se revisa el código, no a la persona.
 
 ## Protección de la rama `main` (configurar en GitHub → Settings → Branches)
 
