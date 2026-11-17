@@ -4,7 +4,7 @@ using TiendaMascotas.Core.Dominio;
 namespace TiendaMascotas.Core.Persistencia;
 
 /// <summary>Única responsabilidad: guardar y leer pedidos procesados en un archivo JSON Lines.</summary>
-public sealed class RepositorioPedidosArchivo
+public sealed class RepositorioPedidosArchivo : IRepositorioPedidos
 {
     private readonly string _ruta;
 
