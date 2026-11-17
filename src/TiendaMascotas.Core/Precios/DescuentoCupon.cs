@@ -9,7 +9,8 @@ public sealed class DescuentoCupon : IPoliticaDescuento
         new Dictionary<string, decimal>
         {
             ["HUELLITAS10"] = 0.10m,
-            ["PRIMERACOMPRA"] = 0.15m
+            ["PRIMERACOMPRA"] = 0.15m,
+            ["BLACKFRIDAY"] = 0.20m
         };
 
     public decimal Aplicar(decimal monto, Pedido pedido)
