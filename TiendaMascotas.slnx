@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TiendaMascotas.App/TiendaMascotas.App.csproj" />
+    <Project Path="src/TiendaMascotas.Core/TiendaMascotas.Core.csproj" />
+    <Project Path="src/TiendaMascotas.Legacy/TiendaMascotas.Legacy.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TiendaMascotas.Tests/TiendaMascotas.Tests.csproj" />
+  </Folder>
+</Solution>
