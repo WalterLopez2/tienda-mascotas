@@ -1,0 +1,16 @@
+# Compilación de .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.vscode/
+.idea/
+
+# Resultados de pruebas y cobertura
+TestResults/
+coverage*/
+
+# Archivos que genera la app al ejecutarse
+pedidos.txt
+pedidos.jsonl
