@@ -1,0 +1,30 @@
+name: CI
+
+# Cada push a main y cada Pull Request compila y corre TODAS las pruebas.
+# Si algo falla, el PR no se puede fusionar (regla de protección de rama).
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  compilar-y-probar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Instalar .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restaurar dependencias
+        run: dotnet restore
+
+      - name: Compilar (advertencias como errores)
+        run: dotnet build --no-restore -c Release -warnaserror
+
+      - name: Correr pruebas
+        run: dotnet test --no-build -c Release --verbosity normal
