@@ -52,4 +52,31 @@ public class DescuentoCuponTests
         // Assert
         Assert.Equal(90m, resultado);
     }
+
+    // Requisito nuevo: campaña de bienvenida.
+    [Fact]
+    public void Aplicar_CuponPrimeraCompra_Descuenta15PorCiento()
+    {
+        // Arrange
+        var pedido = UnPedido().ConCupon("PRIMERACOMPRA").Construir();
+
+        // Act
+        var resultado = _politica.Aplicar(100m, pedido);
+
+        // Assert
+        Assert.Equal(85m, resultado);
+    }
+
+    [Fact]
+    public void Aplicar_CuponQueNoExiste_NoDescuenta()
+    {
+        // Arrange
+        var pedido = UnPedido().ConCupon("GRATIS100").Construir();
+
+        // Act
+        var resultado = _politica.Aplicar(100m, pedido);
+
+        // Assert
+        Assert.Equal(100m, resultado);
+    }
 }
